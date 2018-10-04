@@ -12,6 +12,7 @@ KnowDisaster is an application that aims to prepare it's users for the worst of 
   - Sending relief information to people in area of no/low internet connectivity 
   - Generating a broadcasting message to send to users when not connected to the internet
   - Capable of sending disaster relief information to the user as welll as his/her friends and family even if they do not have KnowDisaster installed on their device
+  - Sends heat map of users in affected area to the emergency response team. 
 
 # How it works
 
