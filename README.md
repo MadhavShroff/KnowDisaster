@@ -20,3 +20,8 @@ KnowDisaster is an application that aims to prepare it's users for the worst of 
   - Using user location our backend presents the user with information about impending natural disasters if any.
   - KnowDisaster also calculates the nearest public relief centers and provides directions to safely reach there.
   - Broadcasting message is generated using NLP techniques like - speechTotext, machine translastion etc.
+
+# Predicton strategy
+  The most important requirement for a prediction model is data collected from viable sources. In the area of natural disaster data is scarce, to counter this we gathered our own data from various sources around the world. We created a database of real-time weather metrics of natural disasters occuring in the world.
+  using this data we applied Divide and Conquer method to analyse the collected data using machine learning algorithms like - logistic regression, Support Vector Machines,Decision trees etc. we did all of this with Azure's ML studio which aided in easy deployment.
+
