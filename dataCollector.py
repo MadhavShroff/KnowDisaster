@@ -20,5 +20,7 @@ def main() :
 	f.close()
 
 if __name__ == '__main__':
-	main()
+	while True :
+		sleep(14400)
+		main()
 	
