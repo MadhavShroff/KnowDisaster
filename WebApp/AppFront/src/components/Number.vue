@@ -79,7 +79,7 @@ export default {
         	var number = u_num;
         	var location = u_loc;
 
-        	this.$http.post('post?data') ,{number:number,location:location,latitude:"",longitude:""}.then(function(response){
+        	this.$http.post('/api/heatmap') ,{number:number,location:location,latitude:"",longitude:""}.then(function(response){
 
                 if(response.ok == true)
                 {
@@ -99,7 +99,7 @@ export default {
         	var longitude = lon;
         	var latitude = lat;
 
-        	this.$http.post('post?data') ,{number:number,location:"",latitude:latitude,longitude:longitude}.then(function(response){
+        	this.$http.post('/api/heatmap') ,{number:number,location:"",latitude:latitude,longitude:longitude}.then(function(response){
 
                 if(response.ok == true)
                 {
