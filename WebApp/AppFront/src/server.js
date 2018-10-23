@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api',api)
 
 app.get('*',(req,res) => {
-	res.sendFile(path.join(__dirname,'../index.html'));
+	res.sendFile(path.join(__dirname,'../dist/index.html'));
 });
 
 var port = process.env.PORT || 4000;
