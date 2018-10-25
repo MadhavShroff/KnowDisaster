@@ -13,16 +13,16 @@ validRoutes = [ 'localhost:3000/api/addNumLoc/', 'localhost:3000/api/show/'];
 
 // Database Name
 const dbName = 'KnowDisasterDatabase';
-var str = "Not Connected";
+var isConnected = "Not Connected";
 
 // ******************* Connecting to database : 
 
 mongoose.connect(dburl, { useNewUrlParser: true }).then( () => {
 	console.log('Connected');
-	str = 'Connected';
+	isConnected = 'Connected';
 }).catch(err => {
 	console.log("Connection Failed");
-	str = 'Not Connected';
+	isConnected = 'Not Connected';
 });
 
 // ********************* Defining Schemas for Documents : 
@@ -42,7 +42,7 @@ app.use(express.json());
 // ********************* App routes : 
 
 app.get('/', (req, res) => {
-	res.send(`<h1>Welcome to Know Disaster!</h1> <br/> <p>${str} to MongoDB<p>`);
+	res.send(`<h1>Welcome to Know Disaster!</h1> <br/> <p>${isConnected} to MongoDB<p>`);
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	console.log(`GET from ${ip} at /`);
 })
@@ -86,11 +86,11 @@ app.post('/api/addNumLoc/', async (req, res) => {
 						const result = await anObject.save();
 						console.log("Added to Database: " + result);
 						if(firstTime) {
-							str = '';
+							string = '';
 							https.get(`https://smsknowdisaster.azurewebsites.net/api/sendMessage1/${foo.number}`, (r)=>{
-								r.on("data", function (data) { str += data; });
+								r.on("data", function (data) { string += data; });
 						        r.on("end", async () => {
-						            console.log(str);
+						            console.log(string);
 						        });
 						    });
 						}
@@ -118,11 +118,11 @@ app.post('/api/addNumLoc/', async (req, res) => {
 					const result = await anObject.save();
 					console.log("Added to Database: " + result);
 					if(firstTime) {
-						str = '';
+						string = '';
 						https.get(`https://smsknowdisaster.azurewebsites.net/api/sendMessage1/${foo.number}`, (r)=>{
-							r.on("data", function (data) { str += data; });
+							r.on("data", function (data) { string += data; });
 						    r.on("end", async () => {
-						        console.log(str);
+						        console.log(string);
 						    });
 						});
 					}
