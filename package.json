@@ -2,15 +2,13 @@
   "name": "KnowDisaster",
   "version": "1.0.0",
   "description": "App to Predict Disasters and help people at the time of crisis.",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Madhav Shroff, Aakash Vashishta, Raghav Dixit",
   "license": "ISC",
-  "repository": "https://github.com/MadhavShroff/KnowDisaster",
   "dependencies": {
     "body-parser": "^1.18.3",
     "circular-json": "^0.5.8",
