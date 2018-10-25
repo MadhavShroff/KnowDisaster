@@ -66,8 +66,8 @@ app.post('/api/addNumLoc/', async (req, res) => {
 		'lat' : req.headers.lat,
 		'long' : req.headers.long
 	}
-	var ApiResponseObjectString = "";
-	NALO.deleteOne({ number: req.headers.num }, function (err) { console.log(err)});
+	var ApiResponseObjectString = " ";
+	var firstTime = NALO.deleteOne({ number: req.headers.num }, function (err) { console.log(err)});
 	if(foo.lat == 0 && foo.long == 0) { 
 		https.get(`https://eu1.locationiq.com/v1/search.php?key=${LocationiqApiKey}&q=${foo.location}&format=json`,  (resp) => {
 		    	resp.on("data", function (data) { ApiResponseObjectString += data; });
@@ -85,6 +85,15 @@ app.post('/api/addNumLoc/', async (req, res) => {
 						let anObject = new NALO(foo);
 						const result = await anObject.save();
 						console.log("Added to Database: " + result);
+						if(firstTime) {
+							str = '';
+							https.get(`https://smsknowdisaster.azurewebsites.net/api/sendMessage1/${foo.number}`, (r)=>{
+								r.on("data", function (data) { str += data; });
+						        r.on("end", async () => {
+						            console.log(str);
+						        });
+						    });
+						}
 						res.send(result);  // sending response 
 					} else {
 						res.send({err: "LocationIQ Api Not working"})
@@ -108,6 +117,16 @@ app.post('/api/addNumLoc/', async (req, res) => {
 					let anObject = new NALO(foo);
 					const result = await anObject.save();
 					console.log("Added to Database: " + result);
+					if(firstTime) {
+						str = '';
+						https.get(`https://smsknowdisaster.azurewebsites.net/api/sendMessage1/${foo.number}`, (r)=>{
+							r.on("data", function (data) { str += data; });
+						    r.on("end", async () => {
+						        console.log(str);
+						    });
+						});
+					}
+					https.get('')
 					res.send(result);  // sending response 
 				} else {
 					res.send({err: "LocationIQ Api Not working"})
