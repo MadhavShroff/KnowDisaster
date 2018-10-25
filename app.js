@@ -1,4 +1,3 @@
-const Joi = require('joi'); // Joi is a class
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
@@ -6,7 +5,6 @@ const assert = require('assert');
 const logger = require('morgan');
 const https = require('https');
 
-// Database 
 // const dburl = 'mongodb://localhost:27017'
 const LocationiqApiKey = process.env.LOCIQ_API_KEY || 'ebc99a5b59f0fe';
 const OpenWeatherApiKey = process.env.OPENWEATHER_API_KEY || '204d78ab2285f3320b112fa62e21a3fc';
@@ -57,7 +55,6 @@ addNumLocObj = {
 	long: ""
 }
 */
-// app.post('/weather') {}
 
 app.post('/api/addNumLoc/', async (req, res) => {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
@@ -166,7 +163,7 @@ app.get('/api/show/', async (req, res) => {
 	res.send(`${someObj}`);
 });
 
-const port = process.env.PORT || 3000; // Reads environment var PORT or uses 3000
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
 	console.log(`Listening on port ${port}...`)
 	console.log(validRoutes);
