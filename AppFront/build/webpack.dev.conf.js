@@ -7,7 +7,7 @@ const path = require('path')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+//webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 

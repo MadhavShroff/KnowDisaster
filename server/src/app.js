@@ -140,8 +140,8 @@ app.post('/api/addNumLoc/', async (req, res) => {
 		res.status(400).send("Bad Request")
 	}
 });
-app.get('/api/weather', (req, res) => {
-	var num = req.headers.num;
+app.get('/api/weather/:num', (req, res) => {
+	var num = req.params.num;
 	NALO.find({ number: num}, (err, docs) => {
 		if (err != null) console.log(err);
 		str = '';

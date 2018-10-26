@@ -4,8 +4,8 @@
   	<div class="underlay-photo"></div>
     <div class="underlay-black"></div> 
   	<li><a href="https://github.com/MadhavShroff/KnowDisaster/blob/master/README.md">About</a></li>
-  	<li><a href="/Weather">Weather Data</a></li>
-  	<li><a href="/heatmap">Heat Map</a></li>
+  	<li><router-link to="/WeatherData">Weather Data</router-link></li>
+    <li><router-link to="/Heatmap">Heat Map</router-link></li>
   	<li><a href="#">Prediction Percentage</a></li>
   	<li><a href="#">Nearest relief Center</a></li>
   </ul>

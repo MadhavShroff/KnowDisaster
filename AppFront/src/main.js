@@ -8,6 +8,7 @@ import VueResource from 'vue-resource'
 import Homepage from './components/HomePage'
 import number from './components/Number'
 import heatmap from './components/heatmap'
+import WeatherData from './components/WeatherData'
 
 Vue.config.productionTip = false;
 Vue.use(VueResource);
@@ -20,7 +21,8 @@ const routes = [
 
 {path:'/Homepage',component: Homepage},
 {path:'/',component:number},
-{path:'/heatmap',component: heatmap}
+{path:'/heatmap',component: heatmap},
+{path: '/WeatherData',component:WeatherData}
 
 ];
 
