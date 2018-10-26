@@ -42,13 +42,8 @@ export default {
 	            lat = position.coords.latitude;
                 lon = position.coords.longitude;
                 alert("We have your location");
-  
-	
     },
-
-
-
-     function(error) {
+    function(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
             alert("User denied the request for Geolocation.");
@@ -64,29 +59,20 @@ export default {
             break;
             }
         }
-
        );
  
- }else { 
+        } else { 
         alert("Geolocation is not supported by this browser. You can type in your location.");
        }
     },
-
-
  sendAll: function()
-
      {
-        
-          
           var number = this.number;
           var location = this.location;
           var longitude = lon;
           var latitude = lat;
-      
-         
-        if(number== 0)
-        {
-          
+
+        if(number== 0) {
           alert("Number field cannot be empty.");
           return;
         }
@@ -95,41 +81,31 @@ export default {
         if(location != '')
         {
 
-        	this.$http.post('/api/heatmap/posts') ,{number:number,location:location,latitude:"0",longitude:"0"}.then(function(response){
+        	this.$http.post('https://localhost:3000/api/addnumloc') ,{number:number,location:location,latitude:"0",longitude:"0"}.then(function(response) {
 
                 this.submitted = true;
         	},
-               function(err)
-               {
+               function(err) {
                	console.log(err.code);
                }
         	)
-        }else{
-        	
-
-        	this.$http.post('/api/heatmap/posts') ,{number:number,location:"0",latitude:lat,longitude:lon}.then(function(response){
-
+        } else {
+        	this.$http.post('https://localhost:3000/api/addnumloc') ,{number:number,location:"0",latitude:lat,longitude:lon}.then(function(response){
                 this.submitted = true;
-        	},
-               function(err)
-               {
+        	   },
+               function(err) {
                	console.log(err.code);
                }
-        	)
-
+        	 )
         }
-
         if(this.submitted == true)
         {
           this.$router.push('/Homepage');
           bus.$emit('phone-num',number);
         }
      }
- 
   } 
 }
-
-
 </script>
 
 <style>
