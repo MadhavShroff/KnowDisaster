@@ -4,7 +4,30 @@
     <title>KnowDisaster</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-    <script src="jquery.beautify-json.js"></script>
+    <script type="text/javascript" src="renderjson.js"></script>
+    <style>
+      .renderjson a { text-decoration: none; }
+      .renderjson .disclosure { color: crimson;
+                                font-size: 150%; }
+      .renderjson .syntax { color: grey; }
+      .renderjson .string { color: darkred; }
+      .renderjson .number { color: darkcyan; }
+      .renderjson .boolean { color: blueviolet; }
+      .renderjson .key    { color: darkblue; }
+      .renderjson .keyword { color: blue; }
+      .renderjson .object.syntax { color: lightseagreen; }
+      .renderjson .array.syntax  { color: orange; }
+      .row {
+        display: flex;
+        }
+
+    /* Create two equal columns that sits next to each other */
+        .column {
+        flex: 50%;
+        padding: 10px;
+        height: 300px; /* Should be removed. Only for demonstration */
+        }
+    </style>
 </head>
 <body>
     <center>
@@ -16,51 +39,55 @@
             <p ng-bind="location"> </p>
             <button ng-click="SubmitVals()">Submit</button>
             <br>
-            <p ng-bind="data"></p>
-            <p ng-bind="data1"></p>
-            <p ng-bind="data2"></p>
             <h1>Data: </h1>
-            <div class="container">
-                <p>{{data}}</p>
-                </br>
-                <p>{{data1}}</p>
-                </br>
-                <p>{{data2}}</p>
-            </div>
         </div>
     </center>
+        <div class="row">
+            <div class="container1 column">
+                </div> </br>
+            <div class="container2 column">
+                </div></br>
+            <div class="container3 column">
+                </div>
+        </div>
     <script>
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function($scope, $http) {
         $scope.SubmitVals = function() {
             console.log($scope.phno);
-            let x = $scope.phno;
-            let y = $scope.location
+            data = {
+                "name":"wow",
+                "Number":"wowwow"
+            };
             $http({
                 method : "GET",
                 url : "/api/addnumloc/"+$scope.phno+"/"+$scope.location
             }).then((response) => {
+                console.log(response.data);
                 $scope.data2 = response.data;
+                $(".container1").append(renderjson.set_show_by_default(true).set_max_string_length(100)([$scope.data2]));
             }, (response) => {
                 $scope.data2 = response.statusText;
             });
-            JSON.stringify($scope.data, null, 2);
-            console.log($scope.data);
             $http({
                 method : "GET",
                 url : "/api/weather/"+$scope.phno
             }).then((response) => {
                 $scope.data1 = response.data;
+                $scope.city = "India";
+                $(".container2").append(renderjson.set_show_by_default(true).set_max_string_length(100).set_show_to_level(4)([$scope.data1]));
+                $http({
+                    method : "GET",
+                    url : "/api/relief/"+$scope.city
+                }).then((response) => {
+                    $scope.data2 = response.data;
+                    $(".container3").append(renderjson.set_show_by_default(true).set_max_string_length(100).set_show_to_level(5)([$scope.data2]));
+                }, (response) => {
+                    $scope.data1 = response.statusText;
+                })
             }, (response) => {
                 $scope.data1 = response.statusText;
-            });
-            JSON.stringify($scope.data, null, 2);
-            console.log($scope.data);
-            $('.container').beautifyJSON({
-                hoverable: true,
-                collapsible: true,
-                color: true
-            });
+            })
         }
     });
 </script>

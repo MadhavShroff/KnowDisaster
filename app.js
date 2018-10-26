@@ -144,6 +144,7 @@ app.get('/api/addNumLoc/:num/:loc', async (req, res) => {
 		res.status(400).send("Bad Request")
 	}
 });
+
 app.get('/api/weather/:num', (req, res) => {
 	var num = req.params.num;
 	NALO.find({ number: num}, (err, docs) => {
@@ -172,7 +173,21 @@ app.get('/api/heatmap', (req, res) => {
 	});
 });
 
-app.post('/api/deleteAll/:pass', (req, res) => {
+app.get('/api/relief/:loc', (req, res) => {
+	var loc = req.params.loc;
+		str = '';
+		https.get(`https://api.reliefweb.int/v1/reports?appname=apidoc&query[value]=${loc}`, resp => {
+			resp.on("data", (data) => { 
+				str += data;
+			});
+		    resp.on("end", async () => {
+		    	var obj = JSON.parse(str);
+		    	res.send(obj);
+			});
+		});
+});
+
+app.get('/api/deleteAll/:pass', (req, res) => {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	console.log(`POST from ${ip} at /api/deleteAll/:pass`);
 	if('pass' == process.env.DELETE_KEY || 'djkhalid') {
