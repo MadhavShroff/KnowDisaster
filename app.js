@@ -10,7 +10,7 @@ const cors = require('cors')
 // const dburl = 'mongodb://localhost:27017'
 const LocationiqApiKey = process.env.LOCIQ_API_KEY || 'ebc99a5b59f0fe';
 const OpenWeatherApiKey = process.env.OPENWEATHER_API_KEY || '204d78ab2285f3320b112fa62e21a3fc';
-const dburl = process.env.MONGODB_URL || 'mongodb://cfd-account:lTaqvuxCfztEPLrfIfW69MRm2o74qEFeGtH4j19Byn90z7jgGTUZCueKJynPTXuArHnuqdd1ivc2bWUEcEGiGQ==@cfd-account.documents.azure.com:10255/?ssl=true&replicaSet=globaldb';
+const dburl = 'mongodb://knowdisaster:akFZA5GuQ7CMzXEAlXg9BaBfgtarKOg9pKm9VTDDkPXk0OvRBkGuq9dqat1I8w0g6C4pinOQmCKocInOt3TQQw==@knowdisaster.documents.azure.com:10255/?ssl=true&replicaSet=globaldb&appname=@South India'
 validRoutes = [ 'localhost:3000/api/addNumLoc/', 'localhost:3000/api/show/'];
 
 // Database Name
@@ -23,7 +23,7 @@ mongoose.connect(dburl, { useNewUrlParser: true }).then( () => {
 	console.log('Connected');
 	isConnected = 'Connected';
 }).catch(err => {
-	console.log("Connection Failed");
+	console.log(err);
 	isConnected = 'Not Connected';
 });
 
@@ -42,11 +42,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(logger('combined'));
 app.use(cors());
+app.use(express.static('static'))
 
 // ********************* App routes : 
 
 app.get('/', (req, res) => {
-	res.send(`<h1>Welcome to Know Disaster!</h1> <br/> <p>${isConnected} to MongoDB<p>`);
+	res.sendFile(path.join(__dirname + '/static/index.html'));
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 	console.log(`GET from ${ip} at /`);
 })
@@ -60,15 +61,18 @@ addNumLocObj = {
 }
 */
 
-app.post('/api/addNumLoc/', async (req, res) => {
+app.get('/api/addNumLoc/:num/:loc', async (req, res) => {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-	console.log(`POST from ${ip} at /api/addNumLoc`);
+	console.log(`GET from ${ip} at /api/addNumLoc`);
 	var works = true;
 	foo = {
-		'number' : req.headers.num,
-		'location' : req.headers.loc,
-		'lat' : req.headers.lat,
-		'long' : req.headers.long
+		'number' : req.params.num,
+		'location' : req.params.loc,
+		'lat' : "0",
+		'long' : "0"
+	}
+	if(req.params.num == 0 && req.params.loc == 0 && Number.parseInt(req.params.num) < 1000000000) {
+		res.send({error: "Enter Valid Details"})
 	}
 	var ApiResponseObjectString = " ";
 	var firstTime = NALO.deleteOne({ number: req.headers.num }, function (err) { console.log(err)});
@@ -140,8 +144,8 @@ app.post('/api/addNumLoc/', async (req, res) => {
 		res.status(400).send("Bad Request")
 	}
 });
-app.get('/api/weather', (req, res) => {
-	var num = req.headers.num;
+app.get('/api/weather/:num', (req, res) => {
+	var num = req.params.num;
 	NALO.find({ number: num}, (err, docs) => {
 		if (err != null) console.log(err);
 		str = '';

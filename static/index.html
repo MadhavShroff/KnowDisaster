@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KnowDisaster</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+</head>
+<body>
+    <center>
+        <div ng-app="myApp" ng-controller="myCtrl">
+
+            Phone Number: <input type="text" ng-model="phno"><br>
+            Location: <input type="text" ng-model="location"><br>
+            <p ng-bind="phno"> </p>
+            <p ng-bind="location"> </p>
+            <button ng-click="SubmitVals()">Submit</button>
+            <br>
+            <p ng-bind="data"></p>
+            <h1>Data: </h1>
+            <p>{{data}}</p>
+        </div>
+    </center>
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+        $scope.SubmitVals = function() {
+            console.log($scope.phno);
+            let x = $scope.phno;
+            let y = $scope.location
+            $http({
+                method : "GET",
+                url : "/api/addnumloc/"+$scope.phno+"/"+$scope.location
+            }).then((response) => {
+                $scope.data = response.data;
+            }, (response) => {
+                $scope.data = response.statusText;
+            });
+            console.log(JSON.stringify($scope.data, null, 2));
+        }
+    });
+</script>
+</body>
+</html>
