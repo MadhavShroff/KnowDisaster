@@ -3,23 +3,28 @@
           <h1 id="head" style="color:#e2f1f8">Know Disaster</h1>
           
 
-               
-            
-          <Number style="margin-top: 80px"></Number>
+           
+           <router-view></router-view> 
+          
     </form>
 </template>
 
 <script>
 /*eslint-disable*/
 import HelloWorld from './components/HelloWorld'
-//import HomePage from './components/HomePage'
+import HomePage from './components/HomePage'
 import Number from './components/Number'
+import { bus } from './main.js'
 
 export default {
   name: 'App',
+
+  
+
   components: {
     HelloWorld,
-    Number
+    Number,
+    HomePage
   }
 }
 
@@ -31,8 +36,6 @@ export default {
 
 
 .app-form {
-  //background: #222;
-  //box-shadow: 0 0 1rem rgba(0,0,0,0.3);
   min-height: 10rem;
   margin: auto;
   max-width: 50%;
@@ -41,10 +44,7 @@ export default {
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
 }
 
@@ -58,6 +58,33 @@ body {
   overflow: hidden;
 }
 
+[class*=underlay] {
+  left: 0;
+  min-height: 100%;
+  min-width: 100%;
+  position: fixed;
+  top: 0;
+}
+.underlay-photo {
+  animation: hue-rotate 6s infinite;
+  background: #808e95;
+  background-size: cover;
+  -webkit-filter: grayscale(20%);
+  z-index: -1;
+}
+.underlay-black {
+  background: rgba(0,0,0,0.7);
+  z-index: -1;
+}
+
+@keyframes hue-rotate {
+  from {
+    -webkit-filter: grayscale(30%) hue-rotate(0deg);
+  }
+  to {
+    -webkit-filter: grayscale(30%) hue-rotate(360deg);
+  }
+}
 
 
 

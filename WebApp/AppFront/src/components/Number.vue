@@ -4,16 +4,20 @@
     <input type="text" placeholder="Location" class="LocationInput" v-model="EnterNum">
   </div--> 
  <div>
-  <input type="number" class="user-number" id="box1" autofocus="true" required="true" placeholder="Enter your phone number" pattern="[1-9]{1}[0-9]{9}"/>
-  <input type="text" class="user-location" id="box2"  placeholder="Location"/>
+  <input type="tel" class="user-number" autofocus="true" v-model="number"  placeholder="Enter your phone number" required
+           pattern="[1-9]{1}[0-9]{9}" size="10" minlength="9" maxlength="12"/>
+  <input type="text" class="user-location" v-model="location"  placeholder="Location"/> 
   <input type="submit" name="Login" v-on:click="sendAll()" value="Let me in" class="user-submit" />
   <button v-on:click="getLocation()" id="button">Get My Location</button>
+  
   <div class="underlay-photo"></div>
-  <div class="underlay-black"></div> 
+  <div class="derlay-black"></div> 
 </div>
 </template>
  
 <script>
+
+  import { bus } from '../main'
 /*eslint-disable*/
 var lat,lon;
 export default {
@@ -22,14 +26,15 @@ export default {
     return {
     	number:'',
     	location:'',
-    	latitude:'',
-    	longitude:''
+      submitted:false
     }
+    
   },
 
   methods: {
     
  getLocation: function () {
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             
@@ -37,6 +42,7 @@ export default {
 	            lat = position.coords.latitude;
                 lon = position.coords.longitude;
                 alert("We have your location");
+  
 	
     },
 
@@ -70,21 +76,28 @@ export default {
  sendAll: function()
 
      {
-        var u_num = document.getElementById('box1').value;
-        var u_loc = document.getElementById('box2').value;
-
-        if(u_loc != '')
+        
+          
+          var number = this.number;
+          var location = this.location;
+          var longitude = lon;
+          var latitude = lat;
+      
+         
+        if(number== 0)
         {
-        	alert("heere");
-        	var number = u_num;
-        	var location = u_loc;
+          
+          alert("Number field cannot be empty.");
+          return;
+        }
+        
 
-        	this.$http.post('/api/heatmap') ,{number:number,location:location,latitude:"",longitude:""}.then(function(response){
+        if(location != '')
+        {
 
-                if(response.ok == true)
-                {
-                	//
-                }
+        	this.$http.post('/api/heatmap/posts') ,{number:number,location:location,latitude:"0",longitude:"0"}.then(function(response){
+
+                this.submitted = true;
         	},
                function(err)
                {
@@ -92,19 +105,11 @@ export default {
                }
         	)
         }else{
+        	
 
-        	alert("wait");
-        	var number = u_num;
-        	var location = u_loc;
-        	var longitude = lon;
-        	var latitude = lat;
+        	this.$http.post('/api/heatmap/posts') ,{number:number,location:"0",latitude:lat,longitude:lon}.then(function(response){
 
-        	this.$http.post('/api/heatmap') ,{number:number,location:"",latitude:latitude,longitude:longitude}.then(function(response){
-
-                if(response.ok == true)
-                {
-                	//
-                }
+                this.submitted = true;
         	},
                function(err)
                {
@@ -112,6 +117,12 @@ export default {
                }
         	)
 
+        }
+
+        if(this.submitted == true)
+        {
+          this.$router.push('/Homepage');
+          bus.$emit('phone-num',number);
         }
      }
  
@@ -160,33 +171,7 @@ export default {
   }
 }
 
-[class*=underlay] {
-  left: 0;
-  min-height: 100%;
-  min-width: 100%;
-  position: fixed;
-  top: 0;
-}
-.underlay-photo {
-  animation: hue-rotate 6s infinite;
-  background: #808e95;
-  background-size: cover;
-  -webkit-filter: grayscale(30%);
-  z-index: -1;
-}
-.underlay-black {
-  background: rgba(0,0,0,0.7);
-  z-index: -1;
-}
 
-@keyframes hue-rotate {
-  from {
-    -webkit-filter: grayscale(30%) hue-rotate(0deg);
-  }
-  to {
-    -webkit-filter: grayscale(30%) hue-rotate(360deg);
-  }
-}
 
 #button {
   display: block;
