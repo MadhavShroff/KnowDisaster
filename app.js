@@ -126,7 +126,6 @@ app.post('/api/addNumLoc/', async (req, res) => {
 						    });
 						});
 					}
-					https.get('')
 					res.send(result);  // sending response 
 				} else {
 					res.send({err: "LocationIQ Api Not working"})
