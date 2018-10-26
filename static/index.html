@@ -4,9 +4,11 @@
     <title>KnowDisaster</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="jquery.beautify-json.js"></script>
 </head>
 <body>
-    <center>
+    <center class='container'>
+        <h1>KnowDisaster</h1>
         <div ng-app="myApp" ng-controller="myCtrl">
 
             Phone Number: <input type="text" ng-model="phno"><br>
@@ -17,7 +19,9 @@
             <br>
             <p ng-bind="data"></p>
             <h1>Data: </h1>
-            <p>{{data}}</p>
+            <div>
+                <p>{{data}}</p>
+            </div>
         </div>
     </center>
     <script>
@@ -36,6 +40,11 @@
                 $scope.data = response.statusText;
             });
             console.log(JSON.stringify($scope.data, null, 2));
+            $('.container').beautifyJSON({
+                hoverable: true,
+                collapsible: true,
+                color: true
+            });
         }
     });
 </script>
