@@ -6,6 +6,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script type="text/javascript" src="renderjson.js"></script>
     <style>
+        h1 { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } 
+        h3 { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } 
+        p { font-family: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; }
       .renderjson a { text-decoration: none; }
       .renderjson .disclosure { color: crimson;
                                 font-size: 150%; }
@@ -20,7 +23,6 @@
       .row {
         display: flex;
         }
-
     /* Create two equal columns that sits next to each other */
         .column {
         flex: 50%;
@@ -39,15 +41,16 @@
             <p ng-bind="location"> </p>
             <button ng-click="SubmitVals()">Submit</button>
             <br>
+            <p> We use your number to send SMS details of nearby disasters that may occour.<a href="https://github.com/MadhavShroff/KnowDisaster">Know More</a></p>
             <h1>Data: </h1>
         </div>
     </center>
         <div class="row">
-            <div class="container1 column">
+            <div class="container3 column">
                 </div> </br>
             <div class="container2 column">
                 </div></br>
-            <div class="container3 column">
+            <div class="container1 column">
                 </div>
         </div>
     <script>
@@ -55,10 +58,6 @@
     app.controller('myCtrl', function($scope, $http) {
         $scope.SubmitVals = function() {
             console.log($scope.phno);
-            data = {
-                "name":"wow",
-                "Number":"wowwow"
-            };
             $http({
                 method : "GET",
                 url : "/api/addnumloc/"+$scope.phno+"/"+$scope.location
@@ -66,28 +65,28 @@
                 console.log(response.data);
                 $scope.data2 = response.data;
                 $(".container1").append(renderjson.set_show_by_default(true).set_max_string_length(100)([$scope.data2]));
-            }, (response) => {
-                $scope.data2 = response.statusText;
-            });
-            $http({
-                method : "GET",
-                url : "/api/weather/"+$scope.phno
-            }).then((response) => {
-                $scope.data1 = response.data;
-                $scope.city = "India";
-                $(".container2").append(renderjson.set_show_by_default(true).set_max_string_length(100).set_show_to_level(4)([$scope.data1]));
                 $http({
                     method : "GET",
-                    url : "/api/relief/"+$scope.city
+                    url : "/api/weather/"+$scope.phno
                 }).then((response) => {
-                    $scope.data2 = response.data;
-                    $(".container3").append(renderjson.set_show_by_default(true).set_max_string_length(100).set_show_to_level(5)([$scope.data2]));
+                    $scope.data1 = response.data;
+                    $scope.city = "India";
+                    $(".container2").append(renderjson.set_show_by_default(true).set_max_string_length(100).set_show_to_level(4)([$scope.data1]));
+                    $http({
+                        method : "GET",
+                        url : "/api/relief/"+$scope.city
+                    }).then((response) => {
+                        $scope.data0 = response.data;
+                        $(".container3").append(renderjson.set_show_by_default(true).set_max_string_length(100).set_show_to_level(5)([$scope.data0]));
+                    }, (response) => {
+                        $scope.data0 = response.statusText;
+                    })
                 }, (response) => {
                     $scope.data1 = response.statusText;
                 })
             }, (response) => {
-                $scope.data1 = response.statusText;
-            })
+                $scope.data2 = response.statusText;
+            });
         }
     });
 </script>
