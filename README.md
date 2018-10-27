@@ -2,9 +2,6 @@
 
 KnowDisaster is an application that aims to prepare its users for the worst of natural disasters by predicting it's approximate occurrence, in real time. 
 
-## Installation 
-<download link>
-
 ## The Central Idea
 Provide a service to the people which aims at helping people deal with Natural Disasters, both before and after it occurs. KnowDisaster provides rescue teams with the location of people who may possibly be in danger, and who may be seeking help. It is also capable of providing the public with relief information in case a disaster happens.    
 
@@ -29,5 +26,5 @@ The most important requirement for a prediction model is data collected from via
 using this data we will apply *Divide and Conquer* method to analyze the collected data using machine learning algorithms like Logistic regression, Support Vector Machines, Decision trees etc. we will do all of this with Azure's ML studio which will also aid in easy deployment.
 
 ## Implementation
-We are implementing our idea as a Web-App, and an Android/iOS app. The backend is a Flask App, running on Azure. We use MongoDB for databasing. For the mobile App, we are using Flutter, which is Google's Mobile App SDK to build cross platform mobile apps. 
+We are implementing our idea as a Web-App, and an Android/iOS app. The backend is a NodeJS/ExpressJS App, running on Azure. We use MongoDB for databasing. For the mobile App, we plan to use Flutter, which is Google's Mobile App SDK to build cross platform mobile apps. 
 We call multiple APIs for weather data collection, and Google Maps API for displaying maps on both the Mobile App and the Web App. 
