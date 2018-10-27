@@ -11,7 +11,6 @@ const cors = require('cors')
 const LocationiqApiKey = process.env.LOCIQ_API_KEY || 'ebc99a5b59f0fe';
 const OpenWeatherApiKey = process.env.OPENWEATHER_API_KEY || '204d78ab2285f3320b112fa62e21a3fc';
 const dburl = 'mongodb://knowdisaster:akFZA5GuQ7CMzXEAlXg9BaBfgtarKOg9pKm9VTDDkPXk0OvRBkGuq9dqat1I8w0g6C4pinOQmCKocInOt3TQQw==@knowdisaster.documents.azure.com:10255/?ssl=true&replicaSet=globaldb&appname=@South India'
-validRoutes = [ 'localhost:3000/api/addNumLoc/', 'localhost:3000/api/show/'];
 
 // Database Name
 const dbName = 'KnowDisasterDatabase';
@@ -36,7 +35,7 @@ const nameAndLocationObject = mongoose.Schema({
 	long: String,
 });
 
-const NALO = mongoose.model('nameAndLocationObject', nameAndLocationObject);
+const NALO = mongoose.model('Collection1', nameAndLocationObject);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
